@@ -1,0 +1,32 @@
+HTTP -> Hyper Text Transfer Protocol
+language that a client and a server use to communicate.
+Browser ----> Internet --> Node.js server
+Browser sends -> GET /home HTTP/1.1
+Server replies -> HTTP/1.1 200 OK <html>..<html>
+this is HTTP
+
+HTTP Headers ---> they are key-value metadata pairs sent alongside requests and response in web communication.
+they define content types , security policies , caching rules and authentication creds.
+
+Header Parsing ---> node's internal HTTP engine takes the raw , plain-text HTTP protocol stream sent by a client or server and extracts the metadata field into a structured JS object.
+
+Stream Handling ---> treating incoming HTTP requests and outgoing HTTP responses as continuous data flows (streams)
+broken into small chunks, rather than processing them as single massive blocks of data in memory. 
+
+example of HTTP message headers:
+{ 
+  "content-length": "123",
+  "content-type": "text/plain",
+  "connection": "keep-alive",
+  "host": "example.com",
+  "accept": "*/*" 
+}
+
+common module importing method:
+Common JS:
+const require = require('http');
+ES module:
+import http from 'http'
+
+These modules directly lets us work with HTTP without ====(EXPRESS)====
+
