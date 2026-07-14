@@ -151,3 +151,30 @@ HTTP/2 requires SSL (HTTPS) — you need certificates:
 You need these files
 key: fs.readFileSync('private-key.pem')
 cert: fs.readFileSync('certificate.pem')
+
+SSL -------> SECURE SOCKET LAYER 
+A digital data file hosted on a website's server. It acts as an electronic "passport" that verifies a site's identity and enables secure, encrypted connections between a user's web browser and the server.
+
+They server 3 main purposes:
+1.encryption 
+2.authentication
+3.Trust
+
+==================================================================================
+Authentication Vs Authorization 
+==================================================================================
+1.Authentication ======> Who you are?
+Verifying your identity. Proving you are who you claim to be.
+Example:
+→ You enter email + password to login
+→ System checks: does this person exist?
+→ Yes → you are authenticated
+==================================================================================
+2.Authorization =======> What can you do?
+Verifying what you are allowed to access after you're logged in.
+Example:
+→ You are logged in (authenticated)
+→ You try to access admin panel
+→ System checks: does this person have permission?
+→ No → you are not authorized
+==================================================================================
