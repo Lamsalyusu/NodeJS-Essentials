@@ -14,6 +14,7 @@ Stream Handling ---> treating incoming HTTP requests and outgoing HTTP responses
 broken into small chunks, rather than processing them as single massive blocks of data in memory. 
 
 example of HTTP message headers:
+
 { 
   "content-length": "123",
   "content-type": "text/plain",
@@ -24,13 +25,13 @@ example of HTTP message headers:
 
 common module importing method:
 Common JS:
-const require = require('http');
+const http = require('http');
 ES module:
 import http from 'http'
 
 These modules directly lets us work with HTTP without ====(EXPRESS)====
 
-======================Creating a Server=======================
+======================Creating a Server=========================
 1.http.createServer()
 ---> The most important method
 ---> It creates a server that listens for requests

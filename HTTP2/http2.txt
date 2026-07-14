@@ -1,0 +1,153 @@
+http2 ---> upgraded version of HTTP/1.1 -- faster smarter more smarter 
+//http/1.1 
+const http = require('http');
+//HTTP/2 - upgraded version 
+const http2 = require('http2');
+
+Why HTTP/2 was created?
+problem with HTTP/1.1:
+request 1 --> wait --> Response 1
+request 2 --> wait --> Response 2
+request 3 --> wait --> Response 3
+---> one at a time , slow
+
+HTTP/2 Solution:
+Request 1 |
+Request 2 | --> All sent at once --> All response back together
+Request 3 |
+-> Simultaneous ,fast 
+
+=================================================================================
+
+key features of HTTP/2
+1 - Multiplexing 
+HTTP/1.1 --> one request per connection (like one lane road)
+HTTP/2 --> multiple request per connection (like highway)
+
+Result:Page loads much faster 
+
+================================================================================
+
+2 — Header Compression (HPACK)
+HTTP/1.1 --> sends full headers every single request
+{ content-type, authorization, host, accept... }
+repeated every time = wasted data
+
+HTTP/2   --> compresses headers, sends only what changed
+Result: smaller request size, faster
+
+==================================================================================
+3 — Server Push
+HTTP/1.1:
+Browser: "Give me index.html"
+Server:  sends index.html
+Browser: "Now give me style.css"
+Server:  sends style.css
+Browser: "Now give me app.js"
+Server:  sends app.js
+→ 3 separate requests
+
+HTTP/2:
+Browser: "Give me index.html"
+Server:  sends index.html + style.css + app.js all at once
+→ Server knew you'd need them, sent before you asked
+
+==================================================================================
+
+4 — Binary Protocol
+HTTP/1.1 → text based (human readable but slower to process)
+HTTP/2   → binary format (not human readable but much faster)
+==================================================================================
+HTTP/2 in Node.js Code
+Creating a basic HTTP/2 server:
+
+const http2 = require('http2');
+const fs = require('fs');
+
+// HTTP/2 requires SSL certificate (HTTPS)
+const server = http2.createSecureServer({
+    key: fs.readFileSync('private-key.pem'),   // SSL key
+    cert: fs.readFileSync('certificate.pem')    // SSL certificate
+});
+
+// HTTP/2 uses STREAMS not req/res like HTTP/1.1
+server.on('stream', (stream, headers) => {
+    
+    // headers contain request info
+    console.log(headers[':method']); // GET
+    console.log(headers[':path']);   // /home
+
+    // respond using stream
+    stream.respond({
+        ':status': 200,
+        'content-type': 'text/html'
+    });
+
+    stream.end('<h1>Hello from HTTP/2!</h1>');
+});
+
+server.listen(8080, () => {
+    console.log('HTTP/2 server running on port 8080');
+});
+
+
+=========================Comparision of req/res and Stream========================
+// HTTP/1.1 — uses req and res
+============================================================================
+server.on('request', (req, res) => {
+    res.writeHead(200);
+    res.end('Hello');
+});
+============================================================================
+// HTTP/2 — uses stream (handles both request and response)
+============================================================================
+server.on('stream', (stream, headers) => {
+    stream.respond({ ':status': 200 });
+    stream.end('Hello');
+});
+=============================================================================
+In HTTP/2 everything flows through a stream 
+one object handles both incoming data and outgoing data
+
+======================TTPS MOST IMPORTANT METHODS============================
+// Creating servers
+http2.createServer()        // plain HTTP/2 (rarely used)
+http2.createSecureServer()  // HTTPS HTTP/2 (what you'll use)
+
+// Creating client connection
+http2.connect()             // connect to an HTTP/2 server
+
+// Stream methods (used instead of req/res)
+stream.respond()            // send response headers (like res.writeHead)
+stream.end()                // finish response (like res.end)
+stream.pushStream()         // server push — send file before client asks
+
+=============================HTTP/2 Special Headers
+HTTP/2 uses special headers starting with : (colon):=============================
+headers[':method']    // GET, POST, PUT, DELETE
+headers[':path']      // /users, /home
+headers[':status']    // 200, 404, 500
+headers[':scheme']    // https
+headers[':authority'] // example.com
+
+===================Normal Headers still works=========================
+headers['content-type']   // application/json
+headers['authorization']  // Bearer token
+
+======================HTTP/2 vs HTTP/1.1 — Side by side=====================
+Feature          HTTP/1.1          HTTP/2
+─────────────────────────────────────────
+Protocol         Text              Binary
+Requests         One at a time     Multiple at once
+Headers          Full every time   Compressed
+Server Push      No                Yes
+Speed            Slower            Much faster
+SSL required     No                Yes (in browsers)
+Node.js module   http              http2
+
+=================================================================================
+Important thing to know
+HTTP/2 requires SSL (HTTPS) — you need certificates:
+You need these files
+key: fs.readFileSync('private-key.pem')
+cert: fs.readFileSync('certificate.pem')
