@@ -30,3 +30,177 @@ import http from 'http'
 
 These modules directly lets us work with HTTP without ====(EXPRESS)====
 
+======================Creating a Server=======================
+1.http.createServer()
+---> The most important method
+---> It creates a server that listens for requests
+---> Client sends request → your server receives it (req)
+---> Your server sends back response → client receives it (res)
+
+const http = require('http');
+const server = http.createServer((req, res) => {
+    // req = what client sent to you
+    // res = what you send back to client
+    res.write('Hello World');
+    res.end();
+});
+
+server.listen(3000, () => {
+    console.log('Server running at http://localhost:3000');
+});
+
+================The Request Object(req)==================
+---> when someone hits your server , req contains all infos about that request.
+const server = http.createServer((req, res) => {
+    
+    console.log(req.method);  // GET, POST, PUT, DELETE
+    console.log(req.url);     // /users, /products, /login
+    console.log(req.headers); // { authorization: 'Bearer token...' }
+
+});
+
+=============Reading Request body (for POST requests)==========
+const server = http.createServer((req, res) => {
+    let body = '';
+
+    // data comes in chunks
+    req.on('data', chunk => {
+        body += chunk.toString();
+    });
+
+    // when all data received
+    req.on('end', () => {
+        const parsed = JSON.parse(body);
+        console.log(parsed); // { name: 'Yuyutsu', email: 'test@gmail.com' }
+    });
+});
+
+==============PART 3 - The Response Object(res)====================
+res is what you send back to client
+res.writeHead(statusCode,headers) --> set status code and headers:
+res.writeHead(200,{'Content-Type':'application/json'});
+200= OK//content-type tells client what format you are sending.
+
+res.write(data) --> write response body:
+res.write('Hello world'); //send text
+res.write(JSON.stringify(data)); //send JSON
+
+============================================
+Stringify bhaneko:
+const user = { name: "Alice", age: 25 };
+const jsonString = JSON.stringify(user);
+console.log(jsonString); 
+// Output: '{"name":"Alice","age":25}'
+============================================
+
+res.end()--> finish the response.Always call this:
+res.end();       ---> ends with no data
+res.end('Done);  ---> ends with message
+res.end(JSON.stringify({ok:true})); ---> end with JSON
+
+
+================Most used res properties/methods:=========================
+res.statusCode = 200;        // set status code
+res.setHeader('key', 'val'); // set single header
+res.writeHead(200, {});      // set status + headers together
+res.write('data');           // write body
+res.end();                   // finish response — ALWAYS CALL THIS
+
+===================PART 4 HTTP Methods(GET,POST,PUT,DELETE)====================
+These are not Node.js methods — they are HTTP protocol methods that the client sends. You handle them in Node.js like this:
+const server = http.createServer((req, res) => {
+
+    // GET — client wants to READ data
+    if (req.method === 'GET' && req.url === '/users') {
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ users: ['Yuyutsu', 'Ram'] }));
+    }
+
+    // POST — client wants to CREATE data
+    else if (req.method === 'POST' && req.url === '/users') {
+        res.writeHead(201, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ message: 'User created' }));
+    }
+
+    // PUT — client wants to UPDATE data
+    else if (req.method === 'PUT' && req.url === '/users') {
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ message: 'User updated' }));
+    }
+
+    // DELETE — client wants to DELETE data
+    else if (req.method === 'DELETE' && req.url === '/users') {
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ message: 'User deleted' }));
+    }
+
+    // Route not found
+    else {
+        res.writeHead(404);
+        res.end(JSON.stringify({ error: 'Not found' }));
+    }
+});
+
+====================PART 5 Making Requests to Other Servers=======================
+
+http.get() - get a make request to another server:
+
+http.get('http://api.example.com/data', (res) => {
+    let data = '';
+    
+    res.on('data', chunk => { data += chunk; });
+    res.on('end', () => { console.log(JSON.parse(data)); });
+});
+
+=================================================================================
+
+http.request() — make any type of request (GET, POST etc):
+
+const options = {
+    hostname: 'api.example.com',
+    port: 80,
+    path: '/users',
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' }
+};
+
+const req = http.request(options, (res) => {
+    let data = '';
+    res.on('data', chunk => { data += chunk; });
+    res.on('end', () => { console.log(data); });
+});
+
+req.write(JSON.stringify({ name: 'Yuyutsu' }));
+req.end();
+
+=====================================PART 6=======================================
+200  // OK — request successful
+201  // Created — new resource created (after POST)
+400  // Bad Request — client sent wrong data
+401  // Unauthorized — not logged in
+403  // Forbidden — logged in but no permission
+404  // Not Found — URL doesn't exist
+500  // Internal Server Error — your server crashed
+
+// Raw http module — verbose
+const server = http.createServer((req, res) => {
+    if (req.method === 'GET' && req.url === '/users') {
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ users: [] }));
+    }
+});
+
+// Express — clean and simple
+app.get('/users', (req, res) => {
+    res.status(200).json({ users: [] });
+});
+
+simple example:
+Client says  → "Hey server, give me /home page"
+Server says  → "Sure, here it is" (200 OK)
+
+Client says  → "Hey server, /xyz doesn't exist?"
+Server says  → "Sorry, not found" (404)
+
+Client says  → "Hey server, create this user"
+Server says  → "Done, user created" (201)
