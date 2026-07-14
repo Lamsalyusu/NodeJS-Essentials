@@ -136,7 +136,7 @@ headers['authorization']  // Bearer token
 
 ======================HTTP/2 vs HTTP/1.1 — Side by side=====================
 Feature          HTTP/1.1          HTTP/2
-─────────────────────────────────────────
+─────────────────────────────────────────----
 Protocol         Text              Binary
 Requests         One at a time     Multiple at once
 Headers          Full every time   Compressed
