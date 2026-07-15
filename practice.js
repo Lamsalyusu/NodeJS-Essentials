@@ -23,4 +23,65 @@
 //   console.error('http2 support is disabled!');
 // }
 
+// const { createHmac } = await import('crypto');
+
+// const secret = 'i love cupcakes';
+// const hash = createHmac('sha256', secret)
+//                .update('I love cupcakes')
+//                .digest('hex');
+// console.log(hash);
+// Prints:
+//   c0fa1bc00531bd78ef38c628449c5102aeabd49b5dc3a2a516ea6ea959d6658e
+
+
+// let crypto;
+// try {
+//   crypto = require('node:crypto');
+//   console.log(`module found ${crypto.Hash}`);
+// } catch (err) {
+//   console.error('crypto support is disabled!');
+// }
+
+
+// const crypto = require('node:crypto');
+
+// // Generate standard RSA keys
+// const { publicKey, privateKey } = crypto.generateKeyPairSync('rsa', {
+//   modulusLength: 2048, // Standard secure key size
+// });
+
+// const message = "Secret Project Data";
+
+// // 1. Encrypt with Public Key
+// const encryptedData = crypto.publicEncrypt(publicKey, Buffer.from(message));
+// console.log("Encrypted:", encryptedData.toString('base64'));
+
+// // 2. Decrypt with Private Key
+// const decryptedData = crypto.privateDecrypt(privateKey, encryptedData);
+// console.log("Decrypted:", decryptedData.toString()); // "Secret Project Data"
+
+const crypto = require('node:crypto');
+
+// Generate the key objects
+const { publicKey, privateKey } = crypto.generateKeyPairSync('rsa', {
+  modulusLength: 2048,
+});
+
+// 1. Export and view the Public Key (Safe to share with anyone)
+const publicKeyPem = publicKey.export({
+  type: 'spki',       // Standard public key format
+  format: 'pem'       // Plain text format
+});
+// console.log("--- YOUR PUBLIC KEY ---");
+console.log(publicKeyPem);
+
+// 2. Export and view the Private Key (Keep this secret!)
+const privateKeyPem = privateKey.export({
+  type: 'pkcs8',      // Standard private key format
+  format: 'pem'       // Plain text format
+});
+// console.log("--- YOUR PRIVATE KEY ---");
+console.log(privateKeyPem);
+
+
 
