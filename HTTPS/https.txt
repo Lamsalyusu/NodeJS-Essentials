@@ -112,3 +112,23 @@ SSL required  No          Yes             Yes
 Speed         Normal      Normal+secure   Fast+secure
 Module        http        https           http2
 Use case      Local dev   Production      High performance
+
+==================================================================================
+==================================================================================
+
+Action                  http            https           http2
+──────────────────────────────────────────────────────────────
+Create server           createServer()  createServer()  createSecureServer()
+Send response           res.end()       res.end()       stream.end()
+Send headers            res.writeHead() res.writeHead() stream.respond()
+GET another server      http.get()      https.get()     http2.connect()
+ANY request             http.request()  https.request()  http2.connect()
+
+
+=================================================================================
+http --> one request travels at a time through the connection
+chunk by chunk
+
+http2 --> multiple requests travel simultaneously through one connection
+             each request still comes chunk by chunk
+             but many requests happen at the same time
