@@ -52,3 +52,63 @@ this above command generates two files
 
 private-key.pem ---> private key
 certificate.pem ---> certificate
+
+const https = require('https');
+const fs = require('fs');
+
+const options = {
+    key:fs.readFileSync('private-key.pem');
+    cert:fs.readFileSync('certificate.pem);
+};
+https.createServer(options,(req,res)=>{
+    res.writeHead(200);
+    res.end('hello Secure World');
+}).listen(433,()=>{
+    console.log('HTTPS server running on port 433');
+});
+
+=================================================================================
+=================================================================================
+Making HTTPS Requests to Other Servers
+https.get() — make a secure GET request:
+javascriptconst https = require('https');
+
+https.get('https://api.example.com/data', (res) => {
+    let data = '';
+
+    res.on('data', chunk => { data += chunk; });
+    res.on('end', () => {
+        console.log(JSON.parse(data));
+    });
+}).on('error', (err) => {
+    console.error('Error:', err.message);
+});
+=================================================================================
+=================================================================================
+https.request() — make any secure request (POST, PUT, DELETE):
+javascriptconst options = {
+    hostname: 'api.example.com',
+    port: 443,              // 443 is default HTTPS port
+    path: '/users',
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' }
+};
+
+const req = https.request(options, (res) => {
+    let data = '';
+    res.on('data', chunk => { data += chunk; });
+    res.on('end', () => { console.log(data); });
+});
+
+req.write(JSON.stringify({ name: 'Yuyutsu' }));
+req.end();
+==================================================================================
+==================================================================================
+Feature       HTTP        HTTPS           HTTP/2
+──────────────────────────────────────────────────
+Security      None        Encrypted       Encrypted
+Port          80          443             443
+SSL required  No          Yes             Yes
+Speed         Normal      Normal+secure   Fast+secure
+Module        http        https           http2
+Use case      Local dev   Production      High performance
