@@ -130,5 +130,5 @@ http --> one request travels at a time through the connection
 chunk by chunk
 
 http2 --> multiple requests travel simultaneously through one connection
-             each request still comes chunk by chunk
-             but many requests happen at the same time
+each request still comes chunk by chunk
+but many requests happen at the same time
