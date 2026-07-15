@@ -1,0 +1,54 @@
+HTTPS is an extension of HTTP that provides encrypted communication between a client and a server. this encryption helps protect sensitive data exchanged between the client and server ensuring confidentiality and integrity.
+
+HTTP --> data sent as plain text --> anyone can read it.
+HTTPS ---> data encrypted --> nobody can read it even if intercepted.
+
+================================================================================
+========================Importing HTTPS module==================================
+javascript// CommonJS
+const https = require('https');
+
+// ES Module
+import https from 'https';
+No installation needed — built into Node.js.
+================================================================================
+================================================================================
+What is TLS/SSL?
+SSL → Secure Socket Layer (older)
+TLS → Transport Layer Security (newer, replacement for SSL)
+
+People still say SSL but they actually mean TLS now.
+Both do the same thing → encrypt data between client and server.
+================================================================================
+================================================================================
+SSL/TLS needs two files to work:
+private-key.pem  → secret key (never share this)
+certificate.pem  → public certificate (shared with everyone)
+================================================================================
+======================Creating an HTTPS server==================================
+const https = require('https');
+const fs = require('fs');
+
+const options = {
+    key:fs.readFileSync('private-key.pem');
+    cert:fs.readFileSync('certificate.pem);
+};
+
+https.createServer(options,(req,res)=>{
+    res.writeHead(200);
+    res.end('hello world\n');
+}).listen(433,()=>{
+    console.log(`server running on port);
+});
+
+
+===============================================================================
+===============================================================================
+How to generate SSL certificates
+For development (self-signed):
+---> bashopenssl req -x509 -newkey rsa:2048 -nodes -sha256 -subj '/CN=localhost' \
+-keyout private-key.pem -out certificate.pem
+this above command generates two files 
+
+private-key.pem ---> private key
+certificate.pem ---> certificate
