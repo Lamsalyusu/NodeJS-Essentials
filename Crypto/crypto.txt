@@ -4,4 +4,37 @@ fout main purposes:
 1.Hashing:
 --> converts data into a unique fixed length string of characters.
 2. Encryption 
---> scrambles data into 
+--> scrambles data into unreadable text using a secret key and unscrabmbles it later.
+3.Signatures
+--> creates a digital signature to prove a msg actually come from you and hasnt been modified in traansit
+4. Randomness:
+-->Generates cryptographically secure random numbers or strings used for creating sessions tokens unique ids or secure keys.
+
+
+==================================================================================
+==================================================================================
+Assymetric Key types:
+refers to specific cryptographic algorithm used to generate a keyObject (a public and a private key) via the built in  node:crypto module.
+
+Key object Pair:
+two mathematically linked keys 
+a public key and a private key that perform complemetary cryptograhic operations.
+Anyone can use your public key to encrypt a message but only your private key can decrypt it. 
+
+
+supported assymetic key types algorithm
+rsa, rsa-pss, dsa,ec 
+
+
+DSA == exception where key switch roles
+
+symmetric encryption --> one key used for both encryption and decrypt 
+assymetric encryption --> key pair public key --> enc | pri key -- dec
+
+Encoding formats 
+DER
+PEM
+JWK
+raw-public 
+raw-private
+raw-seed
