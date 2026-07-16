@@ -160,13 +160,52 @@
 // })('/path/of/file');
 
 
-const fs = require('node:fs/promises');
-const del = async(filepath) =>{
-  try{
-    await fs.unlink(filepath);
-    console.log(`successfully deleted ${filepath}`);
-  }catch(error){
-    console.log("Error deletign the file");
-  }
-};
-del('haina.txt');
+// const fs = require('node:fs/promises');
+// const del = async(filepath) =>{
+//   try{
+//     await fs.unlink(filepath);
+//     console.log(`successfully deleted ${filepath}`);
+//   }catch(error){
+//     console.log("Error deletign the file");
+//   }
+// };
+// del('haina.txt');
+
+
+// const { unlinkSync } = require('node:fs');
+// try {
+//   unlinkSync('a.txt');
+//   console.log('successfully deleted /tmp/hello');
+// } catch (err) {
+//   // handle the error
+//   console.log(err);
+// }
+
+// const fs = require('node:fs/promises');
+// const { text } = require('node:stream/consumers');
+// const opening = async(filepath) =>
+//   {
+//     let fh;
+//   try{
+//       fh = await fs.open(filepath,'r');
+//       console.log('file opened successfully');
+//        console.log(await text(fh.createReadStream()));
+//   }
+//   catch(error){
+//     console.log(error);
+//   }
+//   finally{
+//       await fh?.close()
+//   }
+// }
+// opening('new.txt');
+
+
+
+// const fs = require('node:fs');
+// const filename = 'new.txt';
+// fs.open(filename,(err)=>{
+//   if (err)
+//     throw err;
+//   console.log('sof');
+// });
