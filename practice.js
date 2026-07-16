@@ -60,28 +60,95 @@
 // const decryptedData = crypto.privateDecrypt(privateKey, encryptedData);
 // console.log("Decrypted:", decryptedData.toString()); // "Secret Project Data"
 
+
+
+// const crypto = require('node:crypto');
+// // Generate the key objects
+// const { publicKey, privateKey } = crypto.generateKeyPairSync('rsa', {
+//   modulusLength: 2048,
+// });
+
+// // 1. Export and view the Public Key (Safe to share with anyone)
+// const publicKeyPem = publicKey.export({
+//   type: 'spki',       // Standard public key format
+//   format: 'pem'       // Plain text format
+// });
+// // console.log("--- YOUR PUBLIC KEY ---");
+// console.log(publicKeyPem);
+
+// // 2. Export and view the Private Key (Keep this secret!)
+// const privateKeyPem = privateKey.export({
+//   type: 'pkcs8',      // Standard private key format
+//   format: 'pem'       // Plain text format
+// });
+// // console.log("--- YOUR PRIVATE KEY ---");
+// console.log(privateKeyPem);
+
+
+const fs = require('node:fs/promises');
 const crypto = require('node:crypto');
+// const keyfunc = () =>{
+// // Generate the key objects
+// crypto.generateKeyPair('rsa',{modulusLength: 2048},(err,publicKey,privateKey)=>{
+//   if (err) 
+//     throw err; 
+//     const publicKeyPem = publicKey.export({
+//       type: 'spki',       // Standard public key format
+//       format: 'pem'       // Plain text format
+//     });
+//     fs.writeFile('public_key.pem',publicKeyPem);
+//     console.log('written to public file');
+//     // console.log(publicKeyPem);
 
-// Generate the key objects
-const { publicKey, privateKey } = crypto.generateKeyPairSync('rsa', {
-  modulusLength: 2048,
-});
+//     const privateKeyPem = privateKey.export({
+//     type: 'pkcs8',      // Standard private key format
+//     format: 'pem'       // Plain text format
+//   });
 
-// 1. Export and view the Public Key (Safe to share with anyone)
-const publicKeyPem = publicKey.export({
-  type: 'spki',       // Standard public key format
-  format: 'pem'       // Plain text format
-});
-// console.log("--- YOUR PUBLIC KEY ---");
-console.log(publicKeyPem);
+//     fs.writeFile('private_key.pem',privateKeyPem);
+//     console.log('written to private file');
+//   });
 
-// 2. Export and view the Private Key (Keep this secret!)
-const privateKeyPem = privateKey.export({
-  type: 'pkcs8',      // Standard private key format
-  format: 'pem'       // Plain text format
-});
-// console.log("--- YOUR PRIVATE KEY ---");
-console.log(privateKeyPem);
+// };
+// keyfunc();
+
+// ====================================================================================================
+
+const encdec = async() =>{
+  const readpubkey = await fs.readFile('public_key.pem','utf8');
+  const readprikey = await fs.readFile('private_key.pem','utf8');
+  const supersecretmsg = "this msg cannot be seen";
+  const dataBuffer = Buffer.from(supersecretmsg, 'utf8');
+try{
+
+  const encryptbuff = crypto.publicEncrypt(
+    {
+      key:readpubkey,
+      padding:crypto.constants.RSA_PKCS1_OAEP_PADDING,
+      oaepHash:'sha1'
+    },
+    dataBuffer  
+  );
+  await fs.writeFile('encfile.txt',encryptbuff.toString('base64'));
+
+  const decryptbuff = crypto.privateDecrypt(
+    {
+      key:readprikey,
+      oaepHash:'sha1',
+      padding:crypto.constants.RSA_PKCS1_OAEP_PADDING,
+    },
+    encryptbuff
+  );
+  // console.log("Decrypted Message:", decryptbuff.toString('utf8'));
+  await fs.writeFile('decfile.txt',decryptbuff);
+}
+catch(error){
+  console.log(error)
+}
+};
+encdec();
+
+
 
 
 
