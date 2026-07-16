@@ -85,8 +85,8 @@
 // console.log(privateKeyPem);
 
 
-const fs = require('node:fs/promises');
-const crypto = require('node:crypto');
+// const fs = require('node:fs/promises');
+// const crypto = require('node:crypto');
 // const keyfunc = () =>{
 // // Generate the key objects
 // crypto.generateKeyPair('rsa',{modulusLength: 2048},(err,publicKey,privateKey)=>{
@@ -114,41 +114,59 @@ const crypto = require('node:crypto');
 
 // ====================================================================================================
 
-const encdec = async() =>{
-  const readpubkey = await fs.readFile('public_key.pem','utf8');
-  const readprikey = await fs.readFile('private_key.pem','utf8');
-  const supersecretmsg = "this msg cannot be seen";
-  const dataBuffer = Buffer.from(supersecretmsg, 'utf8');
-try{
+// const encdec = async() =>{
+//   const readpubkey = await fs.readFile('public_key.pem','utf8');
+//   const readprikey = await fs.readFile('private_key.pem','utf8');
+//   const supersecretmsg = "this msg cannot be seen";
+//   const dataBuffer = Buffer.from(supersecretmsg, 'utf8');
+// try{
 
-  const encryptbuff = crypto.publicEncrypt(
-    {
-      key:readpubkey,
-      padding:crypto.constants.RSA_PKCS1_OAEP_PADDING,
-      oaepHash:'sha1'
-    },
-    dataBuffer  
-  );
-  await fs.writeFile('encfile.txt',encryptbuff.toString('base64'));
+//   const encryptbuff = crypto.publicEncrypt(
+//     {
+//       key:readpubkey,
+//       padding:crypto.constants.RSA_PKCS1_OAEP_PADDING,
+//       oaepHash:'sha1'
+//     },
+//     dataBuffer  
+//   );
+//   await fs.writeFile('encfile.txt',encryptbuff.toString('base64'));
 
-  const decryptbuff = crypto.privateDecrypt(
-    {
-      key:readprikey,
-      oaepHash:'sha1',
-      padding:crypto.constants.RSA_PKCS1_OAEP_PADDING,
-    },
-    encryptbuff
-  );
-  // console.log("Decrypted Message:", decryptbuff.toString('utf8'));
-  await fs.writeFile('decfile.txt',decryptbuff);
-}
-catch(error){
-  console.log(error)
-}
+//   const decryptbuff = crypto.privateDecrypt(
+//     {
+//       key:readprikey,
+//       oaepHash:'sha1',
+//       padding:crypto.constants.RSA_PKCS1_OAEP_PADDING,
+//     },
+//     encryptbuff
+//   );
+//   // console.log("Decrypted Message:", decryptbuff.toString('utf8'));
+//   await fs.writeFile('decfile.txt',decryptbuff);
+// }
+// catch(error){
+//   console.log(error)
+// }
+// };
+// encdec();
+
+
+// const { unlink } = require('node:fs/promises');
+// (async function(path) {
+//   try {
+//     await unlink(path);
+//     console.log(`successfully deleted ${path}`);
+//   } catch (error) {
+//     console.error('there was an error:', error.message);
+//   }
+// })('/path/of/file');
+
+
+const fs = require('node:fs/promises');
+const del = async(filepath) =>{
+  try{
+    await fs.unlink(filepath);
+    console.log(`successfully deleted ${filepath}`);
+  }catch(error){
+    console.log("Error deletign the file");
+  }
 };
-encdec();
-
-
-
-
-
+del('haina.txt');
