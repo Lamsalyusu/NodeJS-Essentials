@@ -1,0 +1,7 @@
+built in module for data security and protection.
+it habdles tasks like locking the data so it can't be read.
+fout main purposes:
+1.Hashing:
+--> converts data into a unique fixed length string of characters.
+2. Encryption 
+--> scrambles data into 
