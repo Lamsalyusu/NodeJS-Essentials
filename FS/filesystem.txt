@@ -15,3 +15,5 @@ some important functions in file systems nodeJS
 --> used for reading the content of the file 
 3. writeFile(path,data):
 --> overwrites a file with new data and createsa file if doesnot exists
+4. appendFile(path, data):
+--> doesnot overrites but creates a new file if it doesnot exists.

@@ -248,19 +248,36 @@
 // fl('new.txt');
 
 const fs = require('node:fs/promises');
-const writee = async(fp,data) =>{
-    try{
+// const writee = async(fp,data) =>{
+//     try{
 
-        await fs.writeFile(fp,data,'utf8');
+//         await fs.writeFile(fp,data,'utf8');
+//     }
+//     catch(error){
+//         console.log(error);
+//     }
+//     finally{
+//         if (writee){
+
+//             console.log('written in file');
+//         }
+//     }
+// }
+// writee('new.txt','ki haal hai');
+
+const append = async(fp,dt)=>{
+    try{
+        await fs.appendFile(fp,dt);
     }
     catch(error){
         console.log(error);
-    }
-    finally{
-        if (writee){
-
-            console.log('written in file');
+    }finally{
+        if(append){
+            console.log('appended');
+        }
+        else{
+            console.log('not done');
         }
     }
-}
-writee('new.txt','ki haal hai');
+};
+append('neww.txt','ma nai ho');
