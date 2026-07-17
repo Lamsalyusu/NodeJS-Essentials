@@ -25,4 +25,8 @@ some important functions in file systems nodeJS
 7.mkdir(path,options)
 --> creates a new directory 
 --> in options parameter use { recursive:true} for nested structure
+8. readdir(path):
+--> reads the content of a directory and returns an array of file/folders names
+9..rm(path,options):
+--> removes the files and directories.
 

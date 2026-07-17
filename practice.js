@@ -283,7 +283,7 @@
 // append('neww.txt','ma nai ho');
 
 // const { copyFile } = require('node:fs');
-const { readdir } = require('node:fs');
+// const { readdir } = require('node:fs');
 const fs = require('node:fs/promises');
 // // // import fs from 'node:fs/promises';
 // // await fs.rename('new.txt','hmm.txt');
@@ -317,16 +317,29 @@ const fs = require('node:fs/promises');
 // }
 // dir('new/comps/utils',{recursive:true});
 
-const f = async(p) =>{
+// const f = async(p) =>{
+//     try{
+//     const files = await fs.readdir(p);
+//     console.log(files);
+//     }
+//     catch(error){
+//         console.log(error);
+//     }
+//     finally{
+//         console.log('k bhayo hola');
+//        } 
+// }
+// f('./FS');
+
+const del = async(p,o) =>{
     try{
-    const files = await fs.readdir(p);
-    console.log(files);
+    await fs.rm(p,o);
     }
     catch(error){
         console.log(error);
     }
     finally{
-        console.log('k bhayo hola');
-       } 
+        console.log('bhayo hola')
+    }
 }
-f('./FS');
+del('./a',{recursive:true,force:true});
