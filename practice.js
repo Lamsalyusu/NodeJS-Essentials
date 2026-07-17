@@ -209,3 +209,58 @@
 //     throw err;
 //   console.log('sof');
 // });
+
+// const { text } = require('node:stream/consumers');
+// const fs = require('node:fs/promises');
+// const readfile = async(fp) => {
+//     let filehandle;
+//     try{
+//         filehandle = await fs.open(fp,'r');
+//         console.log(await text(filehandle.createReadStream()));
+//     }
+//     catch(error){
+//         console.log(error);
+//     }
+//     finally{
+//         console.log("opn done")
+//     }
+// }
+// readfile('new.txt');
+
+
+// const fs = require('node:fs/promises');
+// const fl = async(fp) =>{
+//     let fh;
+//     try{
+//         fh = await fs.open(fp,'r');
+//         const content = await fh.readFile({encoding:'utf8'});
+//         console.log(content);
+//     }catch(error){
+//         console.log(error);
+
+//     }finally{
+//         // if(fh){
+//         //     await fh.close();
+//             // console.log('file closed');
+//         // }
+//     }
+// }
+// fl('new.txt');
+
+const fs = require('node:fs/promises');
+const writee = async(fp,data) =>{
+    try{
+
+        await fs.writeFile(fp,data,'utf8');
+    }
+    catch(error){
+        console.log(error);
+    }
+    finally{
+        if (writee){
+
+            console.log('written in file');
+        }
+    }
+}
+writee('new.txt','ki haal hai');
