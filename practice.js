@@ -247,7 +247,7 @@
 // }
 // fl('new.txt');
 
-const fs = require('node:fs/promises');
+// const fs = require('node:fs/promises');
 // const writee = async(fp,data) =>{
 //     try{
 
@@ -265,19 +265,38 @@ const fs = require('node:fs/promises');
 // }
 // writee('new.txt','ki haal hai');
 
-const append = async(fp,dt)=>{
+// const append = async(fp,dt)=>{
+//     try{
+//         await fs.appendFile(fp,dt);
+//     }
+//     catch(error){
+//         console.log(error);
+//     }finally{
+//         if(append){
+//             console.log('appended');
+//         }
+//         else{
+//             console.log('not done');
+//         }
+//     }
+// };
+// append('neww.txt','ma nai ho');
+
+const { copyFile } = require('node:fs');
+const fs = require('node:fs/promises');
+// // import fs from 'node:fs/promises';
+// await fs.rename('new.txt','hmm.txt');
+const cp = async(src,dst) =>{
     try{
-        await fs.appendFile(fp,dt);
+    await fs.copyFile(src,dst);
     }
     catch(error){
-        console.log(error);
-    }finally{
-        if(append){
-            console.log('appended');
-        }
-        else{
-            console.log('not done');
+        console.log(error)
+    }
+    finally{
+        if (cp){
+console.log('file copied');
         }
     }
-};
-append('neww.txt','ma nai ho');
+}
+cp('hmm.txt','new.txt');

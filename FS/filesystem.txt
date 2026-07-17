@@ -17,3 +17,8 @@ some important functions in file systems nodeJS
 --> overwrites a file with new data and createsa file if doesnot exists
 4. appendFile(path, data):
 --> doesnot overrites but creates a new file if it doesnot exists.
+5. rename('old_file_name.txt','new_file_name.txt');
+--> renames the old file to a new old_file_name
+6. copyFile(srcfile.txt,destfile.txt):
+--> copys the content of one file to another file 
+--> it overrides the old content and paste the new content of the file.
