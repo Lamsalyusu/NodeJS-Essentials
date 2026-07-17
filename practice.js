@@ -282,21 +282,51 @@
 // };
 // append('neww.txt','ma nai ho');
 
-const { copyFile } = require('node:fs');
+// const { copyFile } = require('node:fs');
+const { readdir } = require('node:fs');
 const fs = require('node:fs/promises');
-// // import fs from 'node:fs/promises';
-// await fs.rename('new.txt','hmm.txt');
-const cp = async(src,dst) =>{
+// // // import fs from 'node:fs/promises';
+// // await fs.rename('new.txt','hmm.txt');
+// const cp = async(src,dst) =>{
+//     try{
+//     await fs.copyFile(src,dst);
+//     }
+//     catch(error){
+//         console.log(error)
+//     }
+//     finally{
+//         if (cp){
+// console.log('file copied');
+//         }
+//     }
+// }
+// cp('hmm.txt','new.txt');
+
+// const dir = async(p,o) =>{
+//     try{
+//         await fs.mkdir(p,o);
+//     }
+//     catch(error){
+//         console.log(error);
+//     }
+//     finally{
+//         if(dir){
+//            console.log("kaam bhayo hai");
+//         }
+//     }
+// }
+// dir('new/comps/utils',{recursive:true});
+
+const f = async(p) =>{
     try{
-    await fs.copyFile(src,dst);
+    const files = await fs.readdir(p);
+    console.log(files);
     }
     catch(error){
-        console.log(error)
+        console.log(error);
     }
     finally{
-        if (cp){
-console.log('file copied');
-        }
-    }
+        console.log('k bhayo hola');
+       } 
 }
-cp('hmm.txt','new.txt');
+f('./FS');

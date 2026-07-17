@@ -22,3 +22,7 @@ some important functions in file systems nodeJS
 6. copyFile(srcfile.txt,destfile.txt):
 --> copys the content of one file to another file 
 --> it overrides the old content and paste the new content of the file.
+7.mkdir(path,options)
+--> creates a new directory 
+--> in options parameter use { recursive:true} for nested structure
+
