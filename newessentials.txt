@@ -14,3 +14,19 @@ req.params --> content :{"id":"42"}
 Query String
 part o fthe url that follows a question mark used to pass optional data to the server
 consists of key value pairs seperated by & which express automatically parses into the req.query object
+
+app.get('/search',(req,res)=>{
+    const st = req.query.q;
+    res.send(`${st}`);
+})
+http://localhost:3000/search?q=javascript
+req.query content {"q":"Javascript"}
+
+express.json() -> parses incoming http request with json payload frontend app or api client ---> post requestt with JSON data attempting to access req.body will return undefined.
+
+Amiddleware function is just (req,res,next) => {} it runs then either ends the response or calls next() to pass control forward.
+function logger(req,res,next){
+    console.log(`${req.method} ${req.url}`)
+    next();
+}
+app.use(logger);
