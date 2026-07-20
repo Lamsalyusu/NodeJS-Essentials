@@ -30,3 +30,5 @@ some important functions in file systems nodeJS
 9..rm(path,options):
 --> removes the files and directories.
 
+The createReadStream and createWriteStream functions themselves are only available in the core node:fs module. They do not exist directly on the node:fs/promises export list.
+

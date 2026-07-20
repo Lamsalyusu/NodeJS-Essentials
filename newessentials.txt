@@ -1,0 +1,16 @@
+app.get() --> defines a specific routes to handle incoming traffic 
+app.listen() -> actually starts the web server so it can receive the traffic 
+
+route params --> named url segments used as a placeholders to capture dynamic values at specific positions in a url.
+req.params
+to define a route params prefix the segment name with a colon : in your route path 
+app.get ("/users/:id",(req,res)=>{
+    const userId = req.parmas.id;
+    res.send(...)
+});
+req URL --> http://localhost:3000/users/42
+req.params --> content :{"id":"42"}
+
+Query String
+part o fthe url that follows a question mark used to pass optional data to the server
+consists of key value pairs seperated by & which express automatically parses into the req.query object
